@@ -18,4 +18,12 @@ public class Tools {
     public static boolean atLeastKitKat() {
         return getAndroidVersion() >= Build.VERSION_CODES.M;
     }
+
+    public static boolean atLeastJellyBeanMR1() {
+        return getAndroidVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR1;
+    }
+
+    public static boolean atLeastNougatMR1() {
+        return getAndroidVersion() >= Build.VERSION_CODES.N_MR1;
+    }
 }

@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">DataStorage</string>
+    <string name="app_name" translatable="false">DataStorage</string>
+    <string name="no_permissions_this_time">No permissions this time</string>
+    <string name="take_photo">Take photo</string>
+    <string name="enter_text">Enter text</string>
+    <string name="settings">Settings</string>
+    <string name="default_language">Default language</string>
+    <string name="last_photo_location">Last photo location = %s</string>
 </resources>
+

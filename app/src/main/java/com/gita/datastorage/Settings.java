@@ -13,7 +13,6 @@ public class Settings {
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
 
-    private static Settings instance;
 
 
     public static void initialize(Context context) {
@@ -22,13 +21,13 @@ public class Settings {
     }
 
 
-    public static void saveString(String key, String s) {
-        editor.putString(key, s);
+    public static void saveString(String key, String value) {
+        editor.putString(key, value);
         commit();
     }
 
-    public static void saveBoolean(String key, boolean b) {
-        editor.putBoolean(key, b);
+    public static void saveBoolean(String key, boolean value) {
+        editor.putBoolean(key, value);
         commit();
     }
 

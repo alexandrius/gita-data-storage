@@ -43,9 +43,6 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
     @BindView(R.id.imageView)
     ImageView imageView;
 
-    @BindView(R.id.checkbox)
-    CheckBox checkBox;
-
     @BindView(R.id.photo_location_tv)
     TextView photoLocationTV;
 
@@ -57,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
     private static final int CAMERA_REQUEST = 3;
 
     private static final String EDIT_TEXT_KEY = "EDIT_TEXT_KEY";
-    private static final String CHECKBOX_KEY = "CHECKBOX_KEY";
     private static final String IMAGE_PATH = "IMAGE_PATH";
 
 
@@ -68,16 +64,10 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         ButterKnife.bind(this);
 
         editText.setText(Settings.getString(EDIT_TEXT_KEY));
-        checkBox.setChecked(Settings.getBoolean(CHECKBOX_KEY));
         loadImage();
 
         editText.addTextChangedListener(this);
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                Settings.saveBoolean(CHECKBOX_KEY, b);
-            }
-        });
+
     }
 
     @Override
@@ -103,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         }
         if (!permissions.isEmpty()) {
             requestPermissions(permissions.toArray(new String[permissions.size()]), CAMERA_PERMISSION_REQUEST);
-        } else if (hasCameraPermission == PackageManager.PERMISSION_GRANTED) {
+        } else {
             requestStoragePermission();
         }
     }
@@ -119,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
 
         if (!permissions.isEmpty()) {
             requestPermissions(permissions.toArray(new String[permissions.size()]), WRITE_STORAGE_PERMISSION_REQUEST);
-        } else if (hasStoragePermission == PackageManager.PERMISSION_GRANTED) {
+        } else {
             openCamera();
         }
     }
@@ -181,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
             Settings.saveString(IMAGE_PATH, lastPath);
             makeVisibleInGallery(f);
             loadImage();
+        } else if (requestCode == 5 && resultCode == RESULT_OK) {
+            recreate();
         }
 
     }
@@ -199,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
 
     private void loadImage() {
         String path = Settings.getString(IMAGE_PATH);
-        photoLocationTV.setText("Last photo location = " + path);
+        photoLocationTV.setText(String.format(getString(R.string.last_photo_location), path));
         Glide.with(this).load(path).into(imageView);
     }
 
@@ -266,5 +258,9 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         } else {
             openCamera();
         }
+    }
+
+    public void onSettingsClick(View view) {
+        startActivityForResult(new Intent(this, SettingsActivity.class), 5);
     }
 }
